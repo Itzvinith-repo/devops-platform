@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --titlebar-height: 36px;
+  --hacker-green: #00ff41;
+  --hacker-green-dim: rgba(0, 255, 65, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #050807;
+  color: #E2E8F0;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Matrix grid background */
+.hacker-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* CRT scanlines overlay */
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.08) 0px,
+    rgba(0, 0, 0, 0.08) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.35;
+}
+
+.glow-text-green {
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 30px rgba(0, 255, 65, 0.2);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(5, 8, 7, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 65, 0.2);
+  border-radius: 99px;
+  transition: all 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.4);
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-5 py-2.5 bg-gradient-to-r from-hacker-green to-emerald-400 text-black font-bold rounded-lg shadow-[0_0_15px_rgba(0,255,65,0.2)] hover:shadow-[0_0_25px_rgba(0,255,65,0.35)] hover:brightness-110 active:scale-95 transition-all duration-300 font-mono text-sm;
+  }
+
+  .btn-secondary {
+    @apply px-5 py-2.5 bg-gray-950/80 border border-hacker-green/20 text-hacker-green font-semibold rounded-lg hover:bg-hacker-green/10 hover:border-hacker-green/40 hover:shadow-[0_0_15px_rgba(0,255,65,0.1)] active:scale-95 transition-all duration-300;
+  }
+
+  .btn-danger {
+    @apply px-4 py-2 bg-red-950/20 border border-red-900/30 text-red-400 font-semibold rounded-lg hover:bg-red-900/40 hover:text-white active:scale-95 transition-all duration-300;
+  }
+
+  .card {
+    @apply bg-gray-950/50 border border-gray-900/80 rounded-xl p-6 shadow-xl backdrop-blur-md hover:border-hacker-green/15 hover:shadow-[0_0_25px_rgba(0,255,65,0.04)] transition-all duration-300;
+  }
+
+  .terminal-panel {
+    @apply bg-gray-950/60 border border-hacker-green/15 rounded-2xl p-8 md:p-12 shadow-2xl backdrop-blur-md;
+  }
+
+  .badge {
+    @apply inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono;
+  }
+
+  .badge-primary {
+    @apply badge bg-devops-accent/10 text-devops-accent border border-devops-accent/20;
+  }
+
+  .badge-success {
+    @apply badge bg-hacker-green/10 text-hacker-green border border-hacker-green/20;
+  }
+
+  .badge-warning {
+    @apply badge bg-devops-purple/10 text-devops-purple border border-devops-purple/20;
+  }
+
+  .badge-orange {
+    @apply badge bg-devops-orange/10 text-devops-orange border border-devops-orange/20;
+  }
+
+  .badge-danger {
+    @apply badge bg-devops-red/10 text-devops-red border border-devops-red/20;
+  }
+
+  .admin-badge {
+    @apply badge bg-devops-purple/20 text-devops-purple border border-devops-purple/30 animate-pulse;
+  }
+}

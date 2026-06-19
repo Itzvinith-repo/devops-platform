@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "bradlc.vscode-tailwindcss-intellisense",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker"
+  ]
+}

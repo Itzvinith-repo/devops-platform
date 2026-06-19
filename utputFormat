@@ -1,0 +1,13 @@
+HTTP/1.1 500 INTERNAL SERVER ERROR
+Server: Werkzeug/3.1.8 Python/3.13.2
+Date: Fri, 19 Jun 2026 13:35:18 GMT
+Content-Type: application/json
+Content-Length: 47
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Credentials: true
+Vary: Origin
+Connection: close
+
+{
+  "error": "Failed to update lab progress"
+}

@@ -1,0 +1,192 @@
+/* ─── Custom Desktop Title Bar ────────────────────────────────────────────── */
+
+:root {
+  --titlebar-height: 36px;
+}
+
+.titlebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--titlebar-height);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* Glassmorphism effect */
+  background: linear-gradient(
+    135deg,
+    rgba(11, 17, 33, 0.92) 0%,
+    rgba(15, 23, 42, 0.95) 50%,
+    rgba(11, 17, 33, 0.92) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ─── Draggable Region ─────────────────────────────────────────────────── */
+
+.titlebar-drag {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+
+  /* Make this region draggable for moving the window */
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+/* ─── App Info ─────────────────────────────────────────────────────────── */
+
+.titlebar-app-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titlebar-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.titlebar-icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 4px;
+  filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.35));
+}
+
+.titlebar-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.3px;
+}
+
+.titlebar-version {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(0, 212, 255, 0.5);
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.12);
+}
+
+/* ─── Window Control Buttons ───────────────────────────────────────────── */
+
+.titlebar-controls {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  /* Exclude from draggable region */
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.titlebar-btn {
+  width: 46px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  position: relative;
+  outline: none;
+}
+
+.titlebar-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  border-radius: 1px;
+  transition: all 0.2s ease;
+}
+
+/* Minimize button */
+.titlebar-btn-minimize:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FBBF24;
+}
+
+.titlebar-btn-minimize:hover::after {
+  width: 16px;
+  background: #FBBF24;
+}
+
+.titlebar-btn-minimize:active {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(0.95);
+}
+
+/* Maximize button */
+.titlebar-btn-maximize:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #34D399;
+}
+
+.titlebar-btn-maximize:hover::after {
+  width: 16px;
+  background: #34D399;
+}
+
+.titlebar-btn-maximize:active {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(0.95);
+}
+
+/* Close button */
+.titlebar-btn-close:hover {
+  background: rgba(239, 68, 68, 0.85);
+  color: white;
+}
+
+.titlebar-btn-close:hover::after {
+  width: 16px;
+  background: white;
+}
+
+.titlebar-btn-close:active {
+  background: rgba(220, 38, 38, 0.95);
+  transform: scale(0.95);
+}
+
+/* ─── Subtle Glow Animation ────────────────────────────────────────────── */
+
+@keyframes titlebar-glow {
+  0%, 100% {
+    border-bottom-color: rgba(0, 212, 255, 0.12);
+  }
+  50% {
+    border-bottom-color: rgba(0, 212, 255, 0.25);
+  }
+}
+
+.titlebar {
+  animation: titlebar-glow 4s ease-in-out infinite;
+}
