@@ -1,7 +1,9 @@
+import os
 from app import create_app
 
 # Create the Flask app once (shared across invocations)
-app = create_app()
+# Use production config when FLASK_ENV is explicitly set; default to development
+app = create_app(config_name=os.environ.get('FLASK_ENV', 'development'))
 
 def handler(event, context):
     """

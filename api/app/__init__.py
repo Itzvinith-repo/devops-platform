@@ -66,9 +66,11 @@ def create_app(config_name='development'):
         logging.error(f"Internal server error: {str(error)}")
         return jsonify({'error': 'Internal server error', 'message': 'An unexpected error occurred'}), 500
     
-    # Create tables
+    # Create tables and seed data
     with app.app_context():
         db.create_all()
+        from app.seed_data import seed_from_md
+        seed_from_md(app)
     
     return app
 
