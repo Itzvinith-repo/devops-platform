@@ -1,8 +1,10 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import os
 import logging
+import json
+import time
 
 db = SQLAlchemy()
 
@@ -42,6 +44,23 @@ def create_app(config_name='development'):
          supports_credentials=True,
          allow_headers=['Content-Type', 'Authorization'],
          methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
+    
+    # Structured request logging (captured by Vercel Function Logs)
+    @app.before_request
+    def _start_timer():
+        request._start_time = time.time()
+
+    @app.after_request
+    def _log_request(response):
+        if request.path.startswith('/api/'):
+            dt = time.time() - request._start_time
+            app.logger.info(json.dumps({
+                'method': request.method,
+                'path': request.path,
+                'status': response.status_code,
+                'duration_ms': round(dt * 1000, 1),
+            }))
+        return response
     
     # Create upload folders (use /tmp on Vercel — writable)
     try:
