@@ -1,30 +1,40 @@
 import os
+import sys
 import traceback
 import json
 
-# Ensure a SECRET_KEY is always present (override via Vercel env vars for real production use)
+# Ensure the api/ directory is on the path so 'from app import ...' resolves
+_handler_dir = os.path.dirname(os.path.abspath(__file__))
+if _handler_dir not in sys.path:
+    sys.path.insert(0, _handler_dir)
+
+# Ensure a SECRET_KEY is always present
 os.environ.setdefault('SECRET_KEY', 'vercel-deploy-key-rotate-in-production')
 
-from app import create_app
-
-# Wrap initialization so we can surface errors
 _app = None
 _init_error = None
-try:
-    _app = create_app(config_name=os.environ.get('FLASK_ENV', 'production'))
-except Exception as e:
-    _init_error = traceback.format_exc()
+
+def _init_app():
+    global _app, _init_error
+    try:
+        from app import create_app
+        _app = create_app(config_name=os.environ.get('FLASK_ENV', 'production'))
+    except Exception as e:
+        _init_error = traceback.format_exc()
 
 
 def handler(event, context):
-    # If initialization failed, return the error
+    # Lazily initialize on first call (catches import errors gracefully)
+    if _app is None and _init_error is None:
+        _init_app()
+
     if _init_error:
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "application/json"},
             "body": json.dumps({
                 "error": "App initialization failed",
-                "detail": _init_error.splitlines()[-5:]  # last 5 lines of traceback
+                "detail": _init_error.splitlines()[-8:]
             }),
         }
 
