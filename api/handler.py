@@ -1,9 +1,12 @@
 import os
+
+# Ensure a SECRET_KEY is always present (override via Vercel env vars for real production use)
+os.environ.setdefault('SECRET_KEY', 'vercel-deploy-key-rotate-in-production')
+
 from app import create_app
 
-# Create the Flask app once (shared across invocations)
-# Use production config when FLASK_ENV is explicitly set; default to development
-app = create_app(config_name=os.environ.get('FLASK_ENV', 'development'))
+# Use production config on Vercel for in-memory SQLite + /tmp paths
+app = create_app(config_name=os.environ.get('FLASK_ENV', 'production'))
 
 def handler(event, context):
     """

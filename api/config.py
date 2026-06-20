@@ -34,9 +34,13 @@ class DevelopmentConfig(Config):
     SESSION_COOKIE_SECURE = False
 
 class ProductionConfig(Config):
-    """Production configuration"""
+    """Production configuration (used on Vercel)"""
     DEBUG = False
     TESTING = False
+    # Vercel filesystem is read-only except /tmp; use in-memory SQLite
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///:memory:')
+    UPLOAD_FOLDER = '/tmp/uploads'
+    PDF_FOLDER = '/tmp/pdfs'
 
 class TestingConfig(Config):
     """Testing configuration"""

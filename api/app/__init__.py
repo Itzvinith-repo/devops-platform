@@ -43,9 +43,12 @@ def create_app(config_name='development'):
          allow_headers=['Content-Type', 'Authorization'],
          methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
     
-    # Create upload folder
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    os.makedirs(app.config['PDF_FOLDER'], exist_ok=True)
+    # Create upload folders (use /tmp on Vercel — writable)
+    try:
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+        os.makedirs(app.config['PDF_FOLDER'], exist_ok=True)
+    except OSError:
+        logging.warning("Could not create upload folders, uploads may not work")
     
     # Register blueprints
     from app.routes import api_bp
@@ -69,8 +72,11 @@ def create_app(config_name='development'):
     # Create tables and seed data
     with app.app_context():
         db.create_all()
-        from app.seed_data import seed_from_md
-        seed_from_md(app)
+        try:
+            from app.seed_data import seed_from_md
+            seed_from_md(app)
+        except Exception as e:
+            logging.error(f"Seed failed (non-fatal): {e}")
     
     return app
 
