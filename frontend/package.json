@@ -13,6 +13,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "axios": "^1.5.0",
     "framer-motion": "^12.40.0",
     "lucide-react": "^0.263.1",
