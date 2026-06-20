@@ -3,7 +3,7 @@ import sys
 import traceback
 import json
 
-# Ensure the api/ directory is on the path so 'from app import ...' resolves
+# Vercel runs from /var/task/api/ but doesn't always add it to sys.path
 _handler_dir = os.path.dirname(os.path.abspath(__file__))
 if _handler_dir not in sys.path:
     sys.path.insert(0, _handler_dir)
