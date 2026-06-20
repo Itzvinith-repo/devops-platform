@@ -11,6 +11,7 @@ import LabDetail from '@/pages/LabDetail'
 import Resources from '@/pages/Resources'
 import Sidebar from '@/components/Sidebar'
 import { AdminProvider } from '@/context/AdminContext'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 
 const isElectron = window.electronAPI?.isElectron ?? false
 
@@ -47,6 +48,7 @@ export default function App() {
             </div>
           </div>
         </div>
+        <VercelAnalytics />
       </HashRouter>
     </AdminProvider>
   )
