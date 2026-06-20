@@ -67,7 +67,10 @@ def create_app(config_name='development'):
     def internal_error(error):
         db.session.rollback()
         logging.error(f"Internal server error: {str(error)}")
-        return jsonify({'error': 'Internal server error', 'message': 'An unexpected error occurred'}), 500
+        return jsonify({
+            'error': 'Internal server error',
+            'detail': str(error)
+        }), 500
     
     # Create tables and seed data
     with app.app_context():
